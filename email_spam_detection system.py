@@ -140,4 +140,51 @@ print(f"Proportion of spam in train dataset: {sum(i for i in Y_train if i== 1)/l
 print(f"Proportion of spam in test dataset: {sum(i for i in Y_test if i== 1)/len(Y_test):.4f}") # 0.0.2216(of test dataset) ~ 0.2388(of total dataset)
 
 
+"""
+ function that generates a dictionary, recording the frequency with which each word in the dataset appears as spam (1) or ham (0)."""
+def get_word_frequency(X, Y) :
+    """
+    Calculate the frequency of each word in a set of emails categorized as spam (1) or not spam (0).
 
+    Parameters:
+    - X (numpy.array): Array of emails, where each email is represented as a list of words.
+    - Y (numpy.array): Array of labels corresponding to each email in X. 1 indicates spam, 0 indicates ham.
+
+    Returns:
+    - word_dict (dict): A dictionary where keys are unique words found in the emails, and values
+      are dictionaries containing the frequency of each word for spam (1) and not spam (0) emails.
+    """
+    # Creates an empty dictionary
+    word_dict = {}
+
+    ### START CODE HERE ###
+
+    num_emails = len(X)
+
+    # Iterates over every processed email and its label
+    for i in range(num_emails) :
+        # Get the i-th email
+        email = X[i]
+        # Get the i-th label. This indicates whether the email is spam or not. 1 = None
+        # The variable name cls is an abbreviation for class, a reserved word in Python.
+        cls = Y[i]
+        # To avoid counting the same word twice in an email, remove duplicates by casting the email as a set
+        email = set(email)
+        # Iterates over every distinct word in the email
+        for word in email :
+            # If the word is not already in the dictionary, manually add it. Remember that you will start every word count as 1 both in spam and ham
+            if word not in word_dict.keys() :
+                word_dict[word] = {"spam" : 1, "ham" : 1}
+            # Add one occurrence for that specific word in the key ham if cls == 0 and spam if cls == 1.
+            if cls == 0 :
+                word_dict[word]["ham"] += 1
+            if cls == 1 :
+                word_dict[word]["spam"] += 1
+
+    ### END CODE HERE ###
+    return word_dict
+
+
+
+test_output = get_word_frequency([['like','going','river'], ['love', 'deep', 'river'], ['hate','river']], [1,0,0])
+print(test_output)
