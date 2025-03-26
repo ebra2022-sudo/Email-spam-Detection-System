@@ -231,8 +231,47 @@ def prob_word_given_class(word, cls, word_frequency, class_frequency) :
     ### END CODE HERE ###
     return p_word_given_class
 
+# sample of th current value of he
+
 print(f"P(lottery | spam) = {prob_word_given_class('lottery', cls = 'spam', word_frequency = word_frequency, class_frequency = class_frequency)}")
 print(f"P(lottery | ham) = {prob_word_given_class('lottery', cls = 'ham', word_frequency = word_frequency, class_frequency = class_frequency)}")
 print(f"P(schedule | spam) = {prob_word_given_class('schedule', cls = 'spam', word_frequency = word_frequency, class_frequency = class_frequency)}")
 print(f"P(schedule | ham) = {prob_word_given_class('schedule', cls = 'ham', word_frequency = word_frequency, class_frequency = class_frequency)}")
+
+def prob_email_given_class(treated_email, cls, word_frequency, class_frequency):
+    """
+    Calculate the probability of an email being of a certain class (e.g., spam or ham) based on treated email content.
+
+    Parameters:
+    - treated_email (list): A list of treated words in the email.
+    - cls (str): The class label for the email. It can be either 'spam' or 'ham'
+    - word_frequency (dict): The dictionary containing the words frequency.
+    - class_frequency (dict): The dictionary containing the class frequency.
+
+    Returns:
+    - float: The probability of the given email belonging to the specified class.
+    """
+
+    # prob starts at 1 because it will be updated by multiplying it with the current P(word | class) in every iteration
+    prob = 1
+
+    ### START CODE HERE ###
+
+    for word in treated_email:
+        # Only perform the computation for words that exist in the word frequency dictionary
+        if word in word_frequency.keys():
+            # Update the prob by multiplying it with P(word | class). Don't forget to add the word_frequency and class_frequency parameters!
+            prob *= prob_word_given_class(word, cls = cls, word_frequency = word_frequency, class_frequency = class_frequency)
+
+    return prob
+
+example_email = "Click here to win a lottery ticket and claim your prize!"
+treated_email = preprocess_text(example_email)
+
+# this computes probability of an email given spam
+prob_spam = prob_email_given_class(treated_email, cls = 'spam', word_frequency = word_frequency, class_frequency = class_frequency)
+
+# this computes probability of an email given spam
+prob_ham = prob_email_given_class(treated_email, cls = 'ham', word_frequency = word_frequency, class_frequency = class_frequency)
+print(f"Email: {example_email}\nEmail after preprocessing: {treated_email}\nP(email | spam) = {prob_spam}\nP(email | ham) = {prob_ham}")
 
