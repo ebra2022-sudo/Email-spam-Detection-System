@@ -128,7 +128,7 @@ i.e., 80% of the data will be used for training and 20% for testing.
 
 train_size = int(0.8 * len(X_treated)) # 80 % for training and the remaining for testing
 
-X_train, X_testt = X_treated[:train_size], X_treated[train_size:]
+X_train, X_test = X_treated[:train_size], X_treated[train_size:]
 Y_train, Y_test = Y[:train_size], Y[train_size:]
 
 """
