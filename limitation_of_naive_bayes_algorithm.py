@@ -3,6 +3,14 @@ Hidden problem in the Naive Bayes model.
 A hidden problem in the current model is impacting its performance.
 Let's delve into the issue by manually performing the Naive Bayes computation on a specific example.
 """
+
+
+"""
+The Underflow Problem
+The challenge you encounter is termed an underflow problem, indicating that you are dealing with exceedingly 
+small numbers beyond the computer's precision. In this case, the root cause is the very large product involved 
+in Naive Bayes calculations. Fortunately, there is a solution to this issue. use p(email| class) = log(πp(word i| class)
+"""
 from email_spam_detection_system import X, preprocess_text, word_frequency, class_frequency, Y
 from naive_bayes_algorithim import naive_bayes
 
