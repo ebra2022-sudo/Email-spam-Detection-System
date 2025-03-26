@@ -185,6 +185,54 @@ def get_word_frequency(X, Y) :
     return word_dict
 
 
-
+# test the above  function
 test_output = get_word_frequency([['like','going','river'], ['love', 'deep', 'river'], ['hate','river']], [1,0,0])
 print(test_output)
+
+# word frequency
+word_frequency = get_word_frequency(X_train,Y_train)
+# To count the spam and ham emails, you may just sum the respective 1 and 0 values in the training dataset, since the convention is spam = 1 and ham = 0.
+class_frequency = {'ham': sum(1 for i in Y_train if i == 0 ), 'spam': sum(1 for j in Y_train if j == 1)}
+print(class_frequency)
+
+"""
+will implement the function to compute  𝑃(word∣spam)
+  and  𝑃(word∣ham)
+ . Since the computations are the same for both types of emails, you will create a function to compute  𝑃(word∣class)
+  where class can be either spam ( 1
+ ) or (ham)  0
+ .
+
+Remember that
+
+𝑃(word𝑖∣class)=\# emails in the class (either spam or ham) containing word𝑖\# emails in the given class (spam or ham)
+"""
+
+
+def prob_word_given_class(word, cls, word_frequency, class_frequency) :
+    """
+    Calculate the conditional probability of a given word occurring in a specific class.
+
+    Parameters:
+    - word (str): The target word for which the probability is calculated.
+    - cls (str): The class for which the probability is calculated, it may be 'spam' or 'ham'
+    - word_frequency (dict): The dictionary containing the words frequency.
+    - class_frequency (dict): The dictionary containing the class frequency.
+
+    Returns:
+    - float: The conditional probability of the given word occurring in the specified class.
+    """
+    ### START CODE HERE ###
+
+    # Get the amount of times the word appears with the given class (class is stores in spam variable)
+    amount_word_and_class = word_frequency[word][cls]
+    p_word_given_class = amount_word_and_class / class_frequency[cls]
+
+    ### END CODE HERE ###
+    return p_word_given_class
+
+print(f"P(lottery | spam) = {prob_word_given_class('lottery', cls = 'spam', word_frequency = word_frequency, class_frequency = class_frequency)}")
+print(f"P(lottery | ham) = {prob_word_given_class('lottery', cls = 'ham', word_frequency = word_frequency, class_frequency = class_frequency)}")
+print(f"P(schedule | spam) = {prob_word_given_class('schedule', cls = 'spam', word_frequency = word_frequency, class_frequency = class_frequency)}")
+print(f"P(schedule | ham) = {prob_word_given_class('schedule', cls = 'ham', word_frequency = word_frequency, class_frequency = class_frequency)}")
+
